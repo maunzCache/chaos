@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<header>
+    <meta charset="utf-8">
+    <title>Random distribution</title>
+</header>
+
+<body>
+    <h1>Random distribution: 0 and 1</h1>
+    <h2>100 and 200</h2>
+    <canvas id="randomDist100" width="100" height="100"></canvas>
+    <canvas id="randomDist200" width="200" height="200"></canvas>
+    <h2>100 repeated</h2>
+    <canvas id="randomDist100_0" width="100" height="100"></canvas>
+    <canvas id="randomDist100_1" width="100" height="100"></canvas>
+    <canvas id="randomDist100_2" width="100" height="100"></canvas>
+    <canvas id="randomDist100_3" width="100" height="100"></canvas>
+    <canvas id="randomDist100_4" width="100" height="100"></canvas>
+    <br>
+    <canvas id="randomDist100_5" width="100" height="100"></canvas>
+    <canvas id="randomDist100_6" width="100" height="100"></canvas>
+    <canvas id="randomDist100_7" width="100" height="100"></canvas>
+    <canvas id="randomDist100_8" width="100" height="100"></canvas>
+    <canvas id="randomDist100_9" width="100" height="100"></canvas>
+    <br>
+    <canvas id="randomDist100_10" width="100" height="100"></canvas>
+    <canvas id="randomDist100_11" width="100" height="100"></canvas>
+    <canvas id="randomDist100_12" width="100" height="100"></canvas>
+    <canvas id="randomDist100_13" width="100" height="100"></canvas>
+    <canvas id="randomDist100_14" width="100" height="100"></canvas>
+    <br>
+    <canvas id="randomDist100_15" width="100" height="100"></canvas>
+    <canvas id="randomDist100_16" width="100" height="100"></canvas>
+    <canvas id="randomDist100_17" width="100" height="100"></canvas>
+    <canvas id="randomDist100_18" width="100" height="100"></canvas>
+    <canvas id="randomDist100_19" width="100" height="100"></canvas>
+    <br>
+    <canvas id="randomDist100_20" width="100" height="100"></canvas>
+    <canvas id="randomDist100_21" width="100" height="100"></canvas>
+    <canvas id="randomDist100_22" width="100" height="100"></canvas>
+    <canvas id="randomDist100_23" width="100" height="100"></canvas>
+    <canvas id="randomDist100_24" width="100" height="100"></canvas>
+    
+    <script type="text/javascript">
+        'use strict';
+        
+        function getRandomArbitraryInteger(min, max) {
+            // See https://stackoverflow.com/questions/1527803/generating-random-whole-numbers-in-javascript-in-a-specific-range
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+        
+        function generateRandom(gridSize) {
+            let randomNumbers = [];
+        
+            for (let i = 0; i < gridSize * gridSize; i++) {
+                // Use for integers; black and white
+                // randomNumbers[i] = getRandomArbitraryInteger(0, 1);
+        
+                // Use for gray-scale floats
+                randomNumbers[i] = Math.random();
+            }
+        
+            return randomNumbers;
+        }
+        
+        function drawCanvas(id, canvasSize, gridSize) {
+            let randomNumbers = generateRandom(gridSize);
+        
+            let canvas = document.getElementById(id);
+            if (canvas.getContext) {
+                let ctx = canvas.getContext("2d");
+        
+                randomNumbers.forEach((element, index) => {
+                    let rgbValue = Math.floor((255 / 100) * (element * 100));
+                    ctx.fillStyle = "rgb(" + rgbValue + "," + rgbValue + "," + rgbValue + ")";
+        
+                    // if (element == 0) {
+                    //     ctx.fillStyle = "rgb(255,255,255)";
+                    // } else if (element == 1) {
+                    //     ctx.fillStyle = "rgb(0,0,0)";
+                    // }
+                    // TODO: Handle size dynamically
+                    let size = canvasSize / gridSize;
+                    let x = (index % gridSize) * size;
+                    let y = Math.floor(index / gridSize) * size;
+                    ctx.fillRect(x, y, size, size);
+                });
+            }
+        }
+        
+        function initLoader() {
+            console.log('Loader ready');
+        }
+        
+        function initApp() {
+            console.log('App ready');
+        
+            drawCanvas("randomDist100", 100, 100);
+            drawCanvas("randomDist200", 200, 200);
+        
+            // TODO: Generate canvas
+            for (let i = 0; i < 25; i++) {
+                drawCanvas("randomDist100_" + i, 100, 100);
+            }
+        }
+        
+        (function () {
+            document.addEventListener('readystatechange', event => {
+                if (event.target.readyState === 'interactive') {
+                    initLoader();
+                }
+                else if (event.target.readyState === 'complete') {
+                    initApp();
+                }
+            });
+        })();
+    </script>
+</body>
+
+</html>
